@@ -1,0 +1,5 @@
+====================
+eea.similarity
+====================
+
+User documentation
