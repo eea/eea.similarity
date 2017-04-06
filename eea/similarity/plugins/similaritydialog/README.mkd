@@ -1,0 +1,30 @@
+timeout-dialog.js
+=================
+
+Timeout-dialog.js is a JQuery plugin that displays a timer popup after a certain period of time.
+The timeout dialog should be used whenever you want to warn the editors to save their works more often and to avoid long editing sessions.
+It creates a light box with a time counter to inform you how much time passed since the editing session began.
+
+How to use
+----------
+
+Deafult usage:
+
+`$.timeoutDialog();`
+
+Passing a paramater:
+
+`$.timeoutDialog({delay: 5000});`
+
+
+Options
+-------
+
+==============  ========  =======================================  ========================================================================
+Name            Type      Default                                  Description
+==============  ========  =======================================  ========================================================================
+title           string    You should save the document!            The title message in the dialog box.
+message         string    'You didn\'t saved your work for {0}'    The counter message where {0} will be used to enter the counter value.
+countdown       number    0                                        The start value for the time counter (in seconds).
+delay           number    300000                                   Time after the counter popup will show up, default is set to 5 minutes.
+dialog_width    number    350                                      The width of the dialog box.

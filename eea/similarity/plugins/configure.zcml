@@ -1,0 +1,16 @@
+<configure xmlns:browser="http://namespaces.zope.org/browser">
+
+  <!--SuggestionDialog-->
+  <browser:resource
+    name="jquery.similaritydialog.js"
+    file="similaritydialog/js/similarity-dialog.js"
+    permission="zope.Public"
+    />
+
+  <browser:resource
+    name="jquery.similaritydialog.css"
+    file="similaritydialog/css/similarity-dialog.css"
+    permission="zope.Public"
+    />
+
+</configure>

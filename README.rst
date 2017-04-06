@@ -1,72 +1,94 @@
-.. This README is meant for consumption by humans and pypi. Pypi can render rst files so please do not use Sphinx features.
-   If you want to learn more about writing documentation, please check out: http://docs.plone.org/about/documentation_styleguide.html
-   This text does not appear on pypi or github. It is a comment.
+==========
+EEA Similarity
+==========
 
-==============================================================================
-eea.similarity
-==============================================================================
+Introduction
+============
 
-Tell me what your product does
+EEA Similarity provides cosine-based suggestions to a search string. Initial
+use is to provide a list of possible duplicates when adding content (based on
+the entered title)
 
-Features
---------
-
-- Can be bullet points
-
-
-Examples
---------
-
-This add-on can be seen in action at the following sites:
-- Is there a page on the internet where everybody can see the features?
-
-
-Documentation
--------------
-
-Full documentation for end users can be found in the "docs" folder, and is also available online at http://docs.plone.org/foo/bar
-
-
-Translations
-------------
-
-This product has been translated into
-
-- Klingon (thanks, K'Plai)
+.. contents::
 
 
 Installation
-------------
+============
 
-Install eea.similarity by adding it to your buildout::
+zc.buildout
+-----------
+If you are using `zc.buildout`_ and the `plone.recipe.zope2instance`_
+recipe to manage your project, you can do this:
 
-    [buildout]
+* Update your buildout.cfg file:
 
+  * Add ``eea.similarity`` to the list of eggs to install
+  * Tell the `plone.recipe.zope2instance`_ recipe to install a ZCML slug
+
+  ::
+
+    [instance]
     ...
-
     eggs =
-        eea.similarity
+      ...
+      eea.similarity
+
+    zcml =
+      ...
+      eea.similarity
+
+* Re-run buildout, e.g. with::
+
+  $ ./bin/buildout
+
+You can skip the ZCML slug if you are going to explicitly include the package
+from another package's configure.zcml file.
+
+Dependencies
+============
+
+`EEA Similarity`_ has the following dependencies:
+  - stemming
+  - gensim (which in turn depends on numpy and scipy
+
+Possible issues with scipy:
+--------------------------
+Due to a bug in scipy, it is possible that the package will not install when
+running buildout. The only reliable solution was to install it with easy_install
+/ pip before running the buildout.
 
 
-and then running ``bin/buildout``
+Source code
+===========
+
+- `EEA on Github <https://github.com/eea/eea.similarity>`_
 
 
-Contribute
-----------
+Copyright and license
+=====================
+The Initial Owner of the Original Code is European Environment Agency (EEA).
+All Rights Reserved.
 
-- Issue Tracker: https://github.com/collective/eea.similarity/issues
-- Source Code: https://github.com/collective/eea.similarity
-- Documentation: https://docs.plone.org/foo/bar
+The EEA Similarity (the Original Code) is free software;
+you can redistribute it and/or modify it under the terms of the GNU
+General Public License as published by the Free Software Foundation;
+either version 2 of the License, or (at your option) any later
+version.
+
+Contributor(s):
+---------------
+
+- Valentin Dumitru (Eau de Web)
 
 
-Support
--------
+More details under docs/License.txt
 
-If you are having issues, please let us know.
-We have a mailing list located at: project@example.com
+Funding
+=======
 
+EEA_ - European Environment Agency (EU)
 
-License
--------
-
-The project is licensed under the GPLv2.
+.. _EEA: http://www.eea.europa.eu/
+.. _`eea.tags`: http://eea.github.com/docs/eea.tags
+.. _`plone.recipe.zope2instance`: http://pypi.python.org/pypi/plone.recipe.zope2instance
+.. _`zc.buildout`: http://pypi.python.org/pypi/zc.buildout

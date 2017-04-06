@@ -1,0 +1,64 @@
+/* Timeout Dialog Styles */
+.similarity-dialog.ui-dialog {
+  padding: 15px;
+  background: #eeeeee;
+  border: 1px solid #ffffff;
+  -webkit-box-shadow: 0 0px 5px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0 0px 5px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0px 5px rgba(0, 0, 0, 0.5);
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  position: fixed;
+  right: 0;
+  top:305px!important;
+  left: auto!important;
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+  border-right: none;
+}
+.similarity-dialog .ui-dialog-title {
+  font-size: 16px;
+  font-weight: bold;
+  display: block;
+  padding: 0px;
+  margin-left: 0px;
+  background-color: #FFFABE;
+  text-align: center;
+  width: 100%;
+}
+.similarity-dialog .ui-widget-header {
+  background: #FFFABE;
+}
+.similarity-dialog .ui-dialog-titlebar-close {
+  display: none;
+}
+.similarity-dialog .ui-dialog-buttonpane {
+  margin-top: 15px;
+}
+.similarity-dialog  ~ .ui-widget-overlay {
+  position: absolute;
+  background-color: #000;
+  filter: alpha(opacity=40);
+  -khtml-opacity: 0.4;
+  -moz-opacity: 0.4;
+  opacity: 0.4;
+}
+.similarity-dialog p {
+  margin: 9px 0 5px 0;
+  font-size: 12px;
+}
+
+#similarity-dialog ul {
+  margin-left: 0;
+  font-size: 14px;
+}
+#similarity-dialog li {
+  display: list-item;
+}
+#similarity-counter {
+  font-weight: bold;
+}
+.similarity-dialog .eea-icon-clock-o {
+  margin-top: 13px;
+}

@@ -1,5 +1,6 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     i18n_domain="eea.similarity">
@@ -9,7 +10,8 @@
   <includeDependencies package="." />
 
   <include package=".browser" />
-
+  <include package=".plugins" />
+  <include package=".controlpanel" />
 
   <genericsetup:registerProfile
       name="default"
@@ -33,5 +35,28 @@
   <utility
       factory=".setuphandlers.HiddenProfiles"
       name="eea.similarity-hiddenprofiles" />
+
+  <browser:page
+      for="*"
+      name="get_suggestions"
+      class=".similarities.Suggestions"
+      permission="cmf.ModifyPortalContent"
+      allowed_attributes="title"
+      />
+
+  <browser:page
+      for="*"
+      name="create_idf_index"
+      class=".similarities.TFIDFIndex"
+      permission="cmf.ModifyPortalContent"
+      />
+
+  <browser:page
+      for="*"
+      name="similarity_settings"
+      class=".similarities.SimilaritySettings"
+      permission="cmf.ModifyPortalContent"
+      allowed_attributes="enabled"
+      />
 
 </configure>

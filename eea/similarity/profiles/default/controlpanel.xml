@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+ <object name="portal_controlpanel">
+   <configlet
+     title="EEA Similarity Settings"
+     action_id="eea.similarity.settings"
+     icon_expr="string:$portal_url/++resource++eea.similarity.images/icon.png"
+     appId="eea.similarity"
+     category="Products"
+     condition_expr=""
+     url_expr="string:$portal_url/@@similarity-controlpanel"
+     visible="True">
+       <permission>Manage portal</permission>
+   </configlet>
+ </object>
