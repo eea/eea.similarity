@@ -5,7 +5,7 @@
       title : 'Please check these possible duplicates:',
       message : 'We have found a list of possible duplicates based on your title choice',
       counter: 0,
-      dialog_width: 370
+      dialog_width: 383
     }
 
     $.extend(settings, options);

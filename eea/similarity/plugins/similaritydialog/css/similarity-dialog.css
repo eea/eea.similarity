@@ -24,13 +24,10 @@
   margin-left: 0px;
   background-color: #FFFABE;
   text-align: center;
-  width: 100%;
+  width: 95%;
 }
 .similarity-dialog .ui-widget-header {
   background: #FFFABE;
-}
-.similarity-dialog .ui-dialog-titlebar-close {
-  display: none;
 }
 .similarity-dialog .ui-dialog-buttonpane {
   margin-top: 15px;
