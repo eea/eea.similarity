@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
+""" robot
+"""
 from plone.app.testing import ROBOT_TEST_LEVEL
 from plone.testing import layered
 from eea.similarity.testing import EEA_SIMILARITY_ACCEPTANCE_TESTING  # noqa
-
 import os
 import robotsuite
 import unittest

@@ -1,3 +1,5 @@
+""" similarities module
+"""
 import os
 import json
 import logging
@@ -30,6 +32,7 @@ def get_gensim_data():
     index = similarities.MatrixSimilarity.load(SUGGESTIONS_PATH +
                                                '/index.index')
     return dictionary, corpus, lsi, index
+
 
 class Suggestions(BrowserView):
 
@@ -104,7 +107,6 @@ class Suggestions(BrowserView):
                 if len(candidates) == 5:
                     break
         return json.dumps(candidates)
-
 
 
 class TFIDFIndex(BrowserView):

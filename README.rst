@@ -49,7 +49,7 @@ Dependencies
 
 `EEA Similarity`_ has the following dependencies:
   - stemming
-  - gensim (which in turn depends on numpy and scipy
+  - gensim (which in turn depends on numpy and scipy)
 
 Possible issues with scipy:
 --------------------------
@@ -89,6 +89,5 @@ Funding
 EEA_ - European Environment Agency (EU)
 
 .. _EEA: http://www.eea.europa.eu/
-.. _`eea.tags`: http://eea.github.com/docs/eea.tags
 .. _`plone.recipe.zope2instance`: http://pypi.python.org/pypi/plone.recipe.zope2instance
 .. _`zc.buildout`: http://pypi.python.org/pypi/zc.buildout

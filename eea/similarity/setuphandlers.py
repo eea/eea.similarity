@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+""" setuphandlers
+"""
 from Products.CMFPlone.interfaces import INonInstallable
 from zope.interface import implementer
 
@@ -12,11 +14,9 @@ class HiddenProfiles(object):
             'eea.similarity:uninstall',
         ]
 
-
 def post_install(context):
     """Post install script"""
     # Do something at the end of the installation of this package.
-
 
 def uninstall(context):
     """Uninstall script"""

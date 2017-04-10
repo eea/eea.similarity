@@ -4,7 +4,6 @@
    >>> sandbox = portal['sandbox']
 
 """
-
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from zope.interface import Interface
 from zope import schema

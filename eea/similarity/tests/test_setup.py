@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-"""Setup tests for this package."""
+""" Setup tests for this package.
+"""
 from plone import api
 from eea.similarity.testing import EEA_SIMILARITY_INTEGRATION_TESTING  # noqa
-
 import unittest
 
 
