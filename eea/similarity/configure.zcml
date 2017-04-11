@@ -31,7 +31,6 @@
       post_handler=".setuphandlers.uninstall"
       />
 
-
   <utility
       factory=".setuphandlers.HiddenProfiles"
       name="eea.similarity-hiddenprofiles" />
@@ -48,7 +47,7 @@
       for="*"
       name="create_idf_index"
       class=".similarities.TFIDFIndex"
-      permission="cmf.ModifyPortalContent"
+      permission="zope2.View"
       />
 
   <browser:page

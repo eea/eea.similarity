@@ -42,6 +42,8 @@ setup(name=NAME,
           # -*- Extra requirements: -*-
           'gensim',
           'stemming',
+          'numpy',
+          'scipy',
       ],
       extras_require={
           'test': [

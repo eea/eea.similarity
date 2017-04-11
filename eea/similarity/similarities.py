@@ -50,7 +50,8 @@ class Suggestions(BrowserView):
 
 
     def __call__(self):
-        '''returns a json with candidates of duplication'''
+        """ returns a json with candidates of duplication
+        """
         if self.context.getLanguage() != 'en':
             #suggestions only work for English
             return
@@ -110,8 +111,8 @@ class Suggestions(BrowserView):
 
 
 class TFIDFIndex(BrowserView):
-    """ creates dictionary, corpus, lsi and index for the TF-IDF"""
-
+    """ creates dictionary, corpus, lsi and index for the TF-IDF
+    """
     def __init__(self, context, request):
         self.context = context
         self.request = request
@@ -133,7 +134,7 @@ class TFIDFIndex(BrowserView):
 
 
 class SimilaritySettings(BrowserView):
-    """ return parts of the registry settings """
-
+    """ return parts of the registry settings
+    """
     def enabled(self):
         return IEEASimilaritySettings(self.context).enabled

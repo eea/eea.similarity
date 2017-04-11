@@ -3,7 +3,12 @@ Changelog
 
 1.0.dev0 - (unreleased)
 -----------------------
-* Upgrade step: run etc/scripts/prereq.sh on each backend
+* Pre-upgrade step: run etc/scripts/prereq.sh on each backend
+  [alecghica refs #82296]
+* Upgrade step: from control panel instal eea.similarity
+  [valipod refs #82296]
+* Upgrade step: update cron jobs on blacksquirrel and trigger the index
+  creation method
   [alecghica refs #82296]
 * Feature: Initial release
   [valipod refs #82296]
