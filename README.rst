@@ -51,11 +51,13 @@ Dependencies
   - stemming
   - gensim (which in turn depends on numpy and scipy)
 
-Possible issues with scipy:
---------------------------
-Due to a bug in scipy, it is possible that the package will not install when
-running buildout. The only reliable solution was to install it with easy_install
-/ pip before running the buildout.
+Possible issues with scipy and numpy:
+-------------------------------------
+Due to a bug in scipy, it is possible that the packages will not install when
+running buildout. There are two solutions/options:
+
+1. Install them with easy_install pip before running the buildout.
+1. Update zc.buildout to version 2.9.0 and activate the wheel support via buildout.wheel and the dependencies will be installed via buildout.
 
 
 Source code
