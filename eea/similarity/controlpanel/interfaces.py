@@ -31,6 +31,57 @@ class IEEASimilaritySettings(Interface):
             vocabulary=u"plone.app.vocabularies.ReallyUserFriendlyTypes")
     )
 
+    equivalent_content_types = schema.List(
+        title=_(u"Equivalent content types"),
+        description=_(
+            u"Please enter sets of equivalent content types, separated by"
+            u" commas (each line a different set)"
+        ),
+        value_type=schema.TextLine(),
+        required=True,
+    )
+
+    number_of_suggestions = schema.Int(
+        title=_(u"Max. number of suggestions"),
+        description=_(
+            u"Specify the maximum number of suggestions"
+        ),
+        required=True,
+    )
+
+    max_difference = schema.Float(
+        title=_(u"Max. score difference between suggestions"),
+        description=_(
+            u"Specify the maximum similarity score difference between "
+            u"displayed suggestions (set to 1 to disable):"
+        ),
+        required=True,
+    )
+
+    remove_stopwords = schema.Bool(
+        title=_(u"Remove stopwords"),
+        description=_(
+            u"Should stopwords be removed from the titles before search?"
+            u" (a change here will only have effects after an index rebuild)"
+        ),
+    )
+
+    dialog_title = schema.TextLine(
+        title=_(u"Dialog title"),
+        description=_(
+            u"Customise the title of the dialog window"
+        ),
+        required=False,
+    )
+
+    dialog_text = schema.Text(
+        title=_(u"Dialog text"),
+        description=_(
+            u"Customise the text of the dialog window"
+        ),
+        required=False,
+    )
+
     threshold1 = schema.TextLine(
         title=_(u"Similarity threshold for 3-4 words titles"),
         description=_(

@@ -45,6 +45,13 @@
 
   <browser:page
       for="*"
+      name="get_suggestions_text"
+      class=".similarities.SuggestionsText"
+      permission="cmf.ModifyPortalContent"
+      />
+
+  <browser:page
+      for="*"
       name="create_idf_index"
       class=".similarities.TFIDFIndex"
       permission="zope2.View"

@@ -3,6 +3,5 @@
   <javascript authenticated="False" bundle="default" cacheable="True"
     compression="safe" conditionalcomment="" cookable="True" enabled="True"
     expression="python: (not here.restrictedTraverse('@@plone_portal_state').anonymous()) and 'edit' in request.URL0.split('/')[-1] and 'portal_factory' in request.URL0 and here.restrictedTraverse('@@similarity_settings').enabled()"
-    id="++resource++jquery.similaritydialog.js" inline="False"
-    insert-after="hideemail.js"/>
+    id="++resource++jquery.similaritydialog.js" inline="False"/>
 </object>

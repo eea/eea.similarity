@@ -1,9 +1,25 @@
 !function($) {
   $.suggestionsDialog = function(options) {
 
+    var title = 'Please check these possible duplicates:';
+    var message = 'We have found a list of possible duplicates based on your title choice:'
+    var text_data = $.ajax({
+        url: '/www/SITE/get_suggestions_text',
+        type: 'get',
+        async: false,
+        dataType: 'json',
+        success: function(data){
+            if (data[0]){
+                title = data[0];
+            }
+            if (data[1]){
+                message = data[1];
+            }
+        }
+    });
     var settings = {
-      title : 'Please check these possible duplicates:',
-      message : 'We have found a list of possible duplicates based on your title choice',
+      title : title,
+      message: message,
       counter: 0,
       dialog_width: 383
     }
@@ -18,9 +34,12 @@
         var list = $('<ul/>');
         $.each(settings.suggestions, function(url, sugg){
             list.append($('<li/>')
-                .append($('<a/>')
-                .attr('title', 'Similarity score: ' + sugg[1])
-                .attr('href', url).append(sugg[0]))
+                .append(
+                    $('<a/>')
+                        .attr('title', 'Similarity score: ' + sugg[1])
+                        .attr('href', url).append(sugg[0])
+                )
+                .append('<br/>(similarity score: ' + sugg[1] + ')')
             );
         });
         var html = $('<div/>').attr('id', 'similarity-dialog')
