@@ -57,7 +57,8 @@ Due to a bug in scipy, it is possible that the packages will not install when
 running buildout. There are two solutions/options:
 
 1. Install them with easy_install pip before running the buildout.
-2. Update zc.buildout to version 2.9.0 and activate the wheel support via buildout.wheel and the dependencies will be installed via buildout.
+2. Update `zc.buildout`_ to version 2.9.0 and activate the wheel support via 
+`buildout.wheel`_ and the dependencies will be installed normally.
 
 
 Source code
@@ -93,3 +94,4 @@ EEA_ - European Environment Agency (EU)
 .. _EEA: http://www.eea.europa.eu/
 .. _`plone.recipe.zope2instance`: http://pypi.python.org/pypi/plone.recipe.zope2instance
 .. _`zc.buildout`: http://pypi.python.org/pypi/zc.buildout
+.. _`buildout.wheel`: https://pypi.python.org/pypi/buildout.wheel
