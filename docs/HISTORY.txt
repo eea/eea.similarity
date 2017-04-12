@@ -1,8 +1,8 @@
 Changelog
 =========
 
-1.0.dev0 - (unreleased)
------------------------
+1.0 - (2017-04-12)
+------------------
 * Feature: related to index and score:
     - moved the index creation to the async instance
     - add similarity score next to object link in dialog
