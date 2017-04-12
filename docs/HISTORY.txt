@@ -3,6 +3,8 @@ Changelog
 
 1.1.dev0 - (unreleased)
 -----------------------
+* Bug fix: fixed README markup
+  [alecghica refs #82296]
 
 1.0 - (2017-04-12)
 ------------------
@@ -18,8 +20,6 @@ Changelog
   [alecghica refs #82296]
 * Upgrade step: from control panel instal eea.similarity
   [valipod refs #82296]
-* Upgrade step: update cron jobs on blacksquirrel and trigger the index
-  creation method
   [alecghica refs #82296]
 * Feature: Initial release
   [valipod refs #82296]
