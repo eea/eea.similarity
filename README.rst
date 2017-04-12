@@ -51,6 +51,12 @@ Dependencies
   - stemming
   - gensim (which in turn depends on numpy and scipy)
 
+On CentOS you need to install:
+  - blas-devel
+  - lapack-devel
+  - gcc-fortran
+
+
 Possible issues with scipy and numpy:
 -------------------------------------
 Due to a bug in scipy, it is possible that the packages will not install when
