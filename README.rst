@@ -5,9 +5,9 @@ EEA Similarity
 Introduction
 ============
 
-EEA Similarity provides cosine-based suggestions to a search string. Initial
-use is to provide a list of possible duplicates when adding content (based on
-the entered title)
+EEA Similarity is a `Plone`_ add-on which provides content suggestions based on similarity scores to a search string. It uses NLP algorithms like TF-IDF (frequency–inverse document frequency) and LSI (Latent Semantic Indexing). 
+
+Initial use case is to provide a list of possible duplicates when adding content (based on the entered title).
 
 .. contents::
 
@@ -87,13 +87,7 @@ General Public License as published by the Free Software Foundation;
 either version 2 of the License, or (at your option) any later
 version.
 
-Contributor(s):
----------------
-
-- Valentin Dumitru (Eau de Web)
-
-
-More details under docs/License.txt
+More details in License.txt
 
 Funding
 =======
@@ -104,3 +98,4 @@ EEA_ - European Environment Agency (EU)
 .. _`plone.recipe.zope2instance`: http://pypi.python.org/pypi/plone.recipe.zope2instance
 .. _`zc.buildout`: http://pypi.python.org/pypi/zc.buildout
 .. _`buildout.wheel`: https://pypi.python.org/pypi/buildout.wheel
+.. _`Plone`:https://plone.org
