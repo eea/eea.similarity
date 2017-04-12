@@ -5,7 +5,7 @@ EEA Similarity
 Introduction
 ============
 
-EEA Similarity is a `Plone`_ add-on which provides content suggestions based on similarity scores to a search string. It uses NLP algorithms like TF-IDF (frequency–inverse document frequency) and LSI (Latent Semantic Indexing). 
+EEA Similarity is a Plone_ add-on which provides content suggestions based on similarity scores to a search string. It uses NLP algorithms like TF-IDF (frequency–inverse document frequency) and LSI (Latent Semantic Indexing). 
 
 Initial use case is to provide a list of possible duplicates when adding content (based on the entered title).
 
@@ -98,4 +98,4 @@ EEA_ - European Environment Agency (EU)
 .. _`plone.recipe.zope2instance`: http://pypi.python.org/pypi/plone.recipe.zope2instance
 .. _`zc.buildout`: http://pypi.python.org/pypi/zc.buildout
 .. _`buildout.wheel`: https://pypi.python.org/pypi/buildout.wheel
-.. _`Plone`:https://plone.org
+.. _Plone: https://plone.org
