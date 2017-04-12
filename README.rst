@@ -56,6 +56,10 @@ On CentOS you need to install:
   - lapack-devel
   - gcc-fortran
 
+On Debian/Ubuntu you need to install:
+  - libblas-dev
+  - liblapack
+  - gfortran
 
 Possible issues with scipy and numpy:
 -------------------------------------
