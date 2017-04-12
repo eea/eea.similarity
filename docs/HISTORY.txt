@@ -3,12 +3,14 @@ Changelog
 
 1.0.dev0 - (unreleased)
 -----------------------
-* Feature: moved the index creation to the async instance
-  Feature: add similarity score next to object link in dialog
-  Feature: added to registry settings:
-   equivalent content types sets, use of stopwords, number of shown suggestions
-   max. score difference between suggestions, dialog title and text
-  [valipod refs #83163]
+* Feature: related to index and score:
+    - moved the index creation to the async instance
+    - add similarity score next to object link in dialog
+    - [valipod refs #83163]
+*  Feature: added to registry settings:
+    - equivalent content types sets, use of stopwords, number of shown suggestions
+    - max. score difference between suggestions, dialog title and text
+    - [valipod refs #83163]
 * Pre-upgrade step: run etc/scripts/prereq.sh on each backend
   [alecghica refs #82296]
 * Upgrade step: from control panel instal eea.similarity
