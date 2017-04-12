@@ -1,8 +1,10 @@
 """ similarities module
 """
 import os
+import datetime
 import json
 import logging
+import pytz
 from Products.Five import BrowserView
 from zope.component.hooks import getSite
 from zope.component import getUtility
@@ -51,7 +53,7 @@ class Suggestions(BrowserView):
             #suggestions only work for English
             return
         settings = IEEASimilaritySettings(self.context).settings
-        max_difference = settings.max_difference or MAX_DIFFERENCE
+        max_difference = float(settings.max_difference) or MAX_DIFFERENCE
         equiv_types = [equiv_set.replace(' ', '').split(',')
                        for equiv_set in settings.equivalent_content_types]
         max_suggestions = settings.number_of_suggestions or 5
@@ -131,6 +133,14 @@ def task_create_idf_index(context):
     lsi.save(SUGGESTIONS_PATH +  '/lsi.lsi')
     index = similarities.MatrixSimilarity(lsi[corpus], num_features=200)
     index.save(SUGGESTIONS_PATH +  '/index.index')
+    frequency = settings.refresh_frequency or 24
+    delay = datetime.timedelta(hours=frequency)
+    async = getUtility(IAsyncService)
+    delayedjob = async.queueJobWithDelay(
+        None,
+        datetime.datetime.now(pytz.UTC) + delay,
+        task_create_idf_index,
+        context)
 
 
 class TFIDFIndex(BrowserView):

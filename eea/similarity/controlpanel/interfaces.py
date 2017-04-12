@@ -49,7 +49,7 @@ class IEEASimilaritySettings(Interface):
         required=True,
     )
 
-    max_difference = schema.Float(
+    max_difference = schema.TextLine(
         title=_(u"Max. score difference between suggestions"),
         description=_(
             u"Specify the maximum similarity score difference between "
@@ -64,6 +64,16 @@ class IEEASimilaritySettings(Interface):
             u"Should stopwords be removed from the titles before search?"
             u" (a change here will only have effects after an index rebuild)"
         ),
+    )
+
+    refresh_frequency = schema.Int(
+        title=_(u"TF-IDF index refresh frequency"),
+        description=_(
+            u"Specify the interval (in hours) at which the TF-IDF index should "
+            u"be rebuilt."
+        ),
+        default=24,
+        required=True,
     )
 
     dialog_title = schema.TextLine(

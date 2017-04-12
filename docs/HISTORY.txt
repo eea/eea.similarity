@@ -5,6 +5,9 @@ Changelog
 -----------------------
 * Bug fix: fixed README markup
   [alecghica refs #82296]
+* Upgrade step: trigger index generation once (/www/create_idf_index)
+  Feature: added index update frequency to the registry settings
+  [valipod refs #83163]
 
 1.0 - (2017-04-12)
 ------------------
