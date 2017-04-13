@@ -4,7 +4,7 @@
     var title = 'Please check these possible duplicates:';
     var message = 'We have found a list of possible duplicates based on your title choice:'
     var text_data = $.ajax({
-        url: '/www/SITE/get_suggestions_text',
+        url: $('base').attr('href').split('portal_factory')[0] + 'get_suggestions_text',
         type: 'get',
         async: false,
         dataType: 'json',
@@ -88,18 +88,17 @@ $().ready(function(){
             if ($('#title').val() != title){
                 title = $('#title').val();
                 $('.similarity-dialog:visible').remove();
-                suggestions = $.get('/www/SITE/get_suggestions',
-                                    {'portal_type': portal_type, 'title': title},
-                                    function(data){
-                                        if (Object.keys(data).length){
-                                            $.each(data, function(key, value){
-                                            });
-                                            $.suggestionsDialog({
-                                                'suggestions': data
-                                            });
-                                        }
-                                    },
-                                    'json')
+                suggestions = $.get(
+                    $('base').attr('href').split('portal_factory')[0] + 'get_suggestions',
+                    {'portal_type': portal_type, 'title': title},
+                    function(data){
+                        if (Object.keys(data).length){
+                            $.suggestionsDialog({
+                                'suggestions': data
+                            });
+                        }
+                    },
+                    'json')
             }
     });
 });

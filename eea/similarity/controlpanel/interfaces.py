@@ -38,7 +38,7 @@ class IEEASimilaritySettings(Interface):
             u" commas (each line a different set)"
         ),
         value_type=schema.TextLine(),
-        required=True,
+        required=False,
     )
 
     number_of_suggestions = schema.Int(
@@ -46,6 +46,7 @@ class IEEASimilaritySettings(Interface):
         description=_(
             u"Specify the maximum number of suggestions"
         ),
+        default=3,
         required=True,
     )
 
@@ -55,6 +56,7 @@ class IEEASimilaritySettings(Interface):
             u"Specify the maximum similarity score difference between "
             u"displayed suggestions (set to 1 to disable):"
         ),
+        default=u'0.2',
         required=True,
     )
 
@@ -64,6 +66,7 @@ class IEEASimilaritySettings(Interface):
             u"Should stopwords be removed from the titles before search?"
             u" (a change here will only have effects after an index rebuild)"
         ),
+        required=False,
     )
 
     refresh_frequency = schema.Int(
@@ -73,7 +76,7 @@ class IEEASimilaritySettings(Interface):
             u"be rebuilt."
         ),
         default=24,
-        required=True,
+        required=False,
     )
 
     dialog_title = schema.TextLine(
