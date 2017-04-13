@@ -1,6 +1,9 @@
 Changelog
 =========
 
+1.2.dev0 - (unreleased)
+-----------------------
+
 1.1 - (2017-04-13)
 ------------------
 * Bug fix: fixed README markup
