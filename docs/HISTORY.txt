@@ -3,6 +3,8 @@ Changelog
 
 1.2.dev0 - (unreleased)
 -----------------------
+* Big fix: Remove hard dependency on plone.app.async and eea.versions
+  [avoinea refs #83163]
 * Bug fix: removed hard coded path in the dialog's javascript
   [valipod refs #83163]
 * Bug fix: added some defaults to the control panel settings

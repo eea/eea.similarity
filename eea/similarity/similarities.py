@@ -5,20 +5,28 @@ import datetime
 import json
 import logging
 import pytz
+from zope.interface import Interface
 from Products.Five import BrowserView
 from zope.component.hooks import getSite
-from zope.component import getUtility
+from zope.component import queryUtility, queryAdapter
 from gensim import corpora, models, similarities
 from gensim.utils import simple_preprocess
 from gensim.parsing.preprocessing import STOPWORDS
-from collections import defaultdict, OrderedDict
+from collections import OrderedDict
 from stemming.porter2 import stem
-from plone.app.async.interfaces import IAsyncService
 from eea.similarity.interfaces import IEEASimilaritySettings
+
 try:
     from eea.versions.interfaces import IGetVersions
 except ImportError:
-    pass
+    class IGetVersions(Interface):
+        """ No versioning """
+
+try:
+    from plone.app.async.interfaces import IAsyncService
+except ImportError:
+    class IAsyncService(Interface):
+        """ No async """
 
 MAX_DIFFERENCE = 0.1
 SUGGESTIONS_PATH = os.environ.get('EEASUGGESTIONS_PATH', '/tmp')
@@ -103,8 +111,10 @@ class Suggestions(BrowserView):
                             equivs.extend(equiv_set)
                     if brain.portal_type in equivs:
                         try:
-                            versions = IGetVersions(brain.getObject())
-                            latest = versions.latest_version()
+                            latest = brain.getObject()
+                            versions = queryAdapter(latest, IGetVersions)
+                            if versions is not None:
+                                latest = versions.latest_version()
                             url = '/' + latest.absolute_url(1)
                             if url not in candidates:
                                 candidates[url] = [latest.title, str(sim[1])]
@@ -139,23 +149,29 @@ def task_create_idf_index(context):
     lsi.save(SUGGESTIONS_PATH +  '/lsi.lsi')
     index = similarities.MatrixSimilarity(lsi[corpus], num_features=200)
     index.save(SUGGESTIONS_PATH +  '/index.index')
-    frequency = settings.refresh_frequency or 24
-    delay = datetime.timedelta(hours=frequency)
-    async = getUtility(IAsyncService)
-    delayedjob = async.queueJobWithDelay(
-        None,
-        datetime.datetime.now(pytz.UTC) + delay,
-        task_create_idf_index,
-        context)
+
+    async = queryUtility(IAsyncService)
+    if async is not None:
+        frequency = settings.refresh_frequency or 24
+        delay = datetime.timedelta(hours=frequency)
+        async.queueJobWithDelay(
+            None,
+            datetime.datetime.now(pytz.UTC) + delay,
+            task_create_idf_index,
+            context)
 
 
 class TFIDFIndex(BrowserView):
     """ creates dictionary, corpus, lsi and index for the TF-IDF"""
 
     def __call__(self):
-        async = getUtility(IAsyncService)
-        job = async.queueJob(task_create_idf_index, self.context)
+        async = queryUtility(IAsyncService)
+        if async is not None:
+            job = async.queueJob(task_create_idf_index, self.context)
+        else:
+            task_create_idf_index(self.context)
         return "OK"
+
 
 class SimilaritySettings(BrowserView):
     """ return parts of the registry settings
