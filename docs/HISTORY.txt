@@ -3,11 +3,12 @@ Changelog
 
 1.2.dev0 - (unreleased)
 -----------------------
-* Feature:
-    - Bug fix: removed hard coded path in the dialog's javascript
-    - added some defaults to the control panel settings
-    - removed mandatory status for some control panel settings
-    [valipod refs #83163]
+* Bug fix: removed hard coded path in the dialog's javascript
+  [valipod refs #83163]
+* Bug fix: added some defaults to the control panel settings
+  [valipod refs #83163]
+* Bug fix: removed mandatory status for some control panel settings
+  [valipod refs #83163]
 
 1.1 - (2017-04-13)
 ------------------
@@ -36,4 +37,3 @@ Changelog
   [alecghica refs #82296]
 * Feature: Initial release
   [valipod refs #82296]
-
