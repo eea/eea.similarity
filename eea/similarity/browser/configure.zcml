@@ -8,4 +8,34 @@
       name="eea.similarity.images"
       directory="./img" />
 
+  <browser:page
+      for="*"
+      name="get_suggestions"
+      class="eea.similarity.similarities.Suggestions"
+      permission="cmf.ModifyPortalContent"
+      allowed_attributes="title"
+      />
+
+  <browser:page
+      for="*"
+      name="get_suggestions_text"
+      class="eea.similarity.similarities.SuggestionsText"
+      permission="cmf.ModifyPortalContent"
+      />
+
+  <browser:page
+      for="*"
+      name="create_idf_index"
+      class="eea.similarity.similarities.TFIDFIndex"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      for="*"
+      name="similarity_settings"
+      class="eea.similarity.similarities.SimilaritySettings"
+      permission="cmf.ModifyPortalContent"
+      allowed_attributes="enabled"
+      />
+
 </configure>

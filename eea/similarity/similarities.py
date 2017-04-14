@@ -45,16 +45,18 @@ class Suggestions(BrowserView):
         elif length > 2:
             return float(settings.threshold1)
 
-
     def __call__(self):
         """ returns a json with candidates of duplication
         """
-        if self.context.getLanguage() != 'en':
+        lang = getattr(self.context, 'getLanguage', lambda: 'en')
+        if lang() != 'en':
             #suggestions only work for English
             return
         settings = IEEASimilaritySettings(self.context).settings
         max_difference = float(settings.max_difference) or MAX_DIFFERENCE
-        equiv_types = [equiv_set.replace(' ', '').split(',')
+        equiv_types = []
+        if settings.equivalent_content_types:
+            equiv_types = [equiv_set.replace(' ', '').split(',')
                        for equiv_set in settings.equivalent_content_types]
         max_suggestions = settings.number_of_suggestions or 5
         catalog = getSite().portal_catalog
@@ -120,11 +122,15 @@ def task_create_idf_index(context):
     site = getSite()
     catalog = site.portal_catalog
     settings = IEEASimilaritySettings(context).settings
+    query = {}
+    if catalog.Indexes.get('Language'):
+        query['Language'] = 'en'
+
     texts = [[stem(word) for word in simple_preprocess(brain.Title,
               deacc=True) if not settings.remove_stopwords or
               word not in STOPWORDS] +
              [brain.UID.encode('utf8')]
-              for brain in catalog(Language='en') if brain.Title]
+              for brain in catalog(**query) if brain.Title]
     dictionary = corpora.Dictionary(texts)
     dictionary.save(SUGGESTIONS_PATH +  '/dictionary.dict')
     corpus = [dictionary.doc2bow(text) for text in texts]

@@ -1,0 +1,11 @@
+version: "2"
+services:
+  similarity:
+    image: plone:4
+    ports:
+    - "8080"
+    volumes:
+    - ../../:/plone/instance/src/eea.similarity
+    environment:
+      ADDONS: "eea.similarity plone.app.testing"
+      DEVELOP: "src/eea.similarity"
