@@ -73,11 +73,17 @@ class Suggestions(BrowserView):
         words = [word for word in simple_preprocess(title, deacc=True)
                  if not settings.remove_stopwords or word not in STOPWORDS]
         portal_type = self.request.get('portal_type')
+        equivs = [portal_type]
+        for equiv_set in equiv_types:
+            if portal_type in equiv_set:
+                equivs.extend(equiv_set)
         if len(words) < 3:
-            brains = catalog({'Title': words})[:3]
+            brains = catalog({'Title': words})
             for brain in brains:
-                if brain.portal_type == portal_type:
-                    candidates[brain.getURL()] = [brain.Title, 'unavailable']
+                if brain.portal_type in equivs:
+                    ob_to_candidate(brain.getObject(), candidates)
+                    if len(candidates) == max_suggestions:
+                        break
         else:
             dictionary, corpus, lsi, index = get_gensim_data()
             vec_bow = dictionary.doc2bow([stem(word) for word in words])
@@ -105,10 +111,6 @@ class Suggestions(BrowserView):
                 except IndexError:
                     logger.error('Object with UID %s not found in catalog' % uid)
                 else:
-                    equivs = [brain.portal_type]
-                    for equiv_set in equiv_types:
-                        if brain.portal_type in equiv_set:
-                            equivs.extend(equiv_set)
                     if brain.portal_type in equivs:
                         try:
                             latest = brain.getObject()
@@ -117,16 +119,24 @@ class Suggestions(BrowserView):
                                 latest = versions.latest_version()
                             url = '/' + latest.absolute_url(1)
                             if url not in candidates:
-                                candidates[url] = [latest.title, str(sim[1])]
+                                ob_to_candidate(
+                                    latest, candidates, str(sim[1]))
                         except TypeError:
                             url = brain.getURL()
                             if url not in candidates:
-                                candidates[url] = [
-                                    brain.Title, str(sim[1])]
+                                ob_to_candidate(
+                                    brain.getObject(), candidates, str(sim[1]))
                 if len(candidates) == max_suggestions:
                     break
         return json.dumps(candidates)
 
+def ob_to_candidate(ob, candidates, similarity_score='unavailable'):
+    url = '/' + ob.absolute_url(1)
+    creation_date = getSite().toLocalizedTime(ob.CreationDate())
+    publish_date = getSite().toLocalizedTime(ob.EffectiveDate())
+    candidates[url] = [ob.Title(), ob.Type(), creation_date,
+                       publish_date or 'not available',
+                       similarity_score]
 
 def task_create_idf_index(context):
     site = getSite()

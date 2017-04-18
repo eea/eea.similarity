@@ -39,6 +39,7 @@ class IEEASimilaritySettings(Interface):
         ),
         value_type=schema.TextLine(),
         required=False,
+        default=[u'EEAFigure,DavizVisualization'],
     )
 
     number_of_suggestions = schema.Int(
@@ -66,6 +67,7 @@ class IEEASimilaritySettings(Interface):
             u"Should stopwords be removed from the titles before search?"
             u" (a change here will only have effects after an index rebuild)"
         ),
+        default=True,
         required=False,
     )
 
@@ -101,6 +103,7 @@ class IEEASimilaritySettings(Interface):
             u"Define the similarity score threshold for 3-4 words titles."
         ),
         required=True,
+        default=u'0.99',
     )
 
     threshold2 = schema.TextLine(
@@ -110,4 +113,5 @@ class IEEASimilaritySettings(Interface):
             u"more than 4 words."
         ),
         required=True,
+        default=u'0.9',
     )

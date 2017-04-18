@@ -3,10 +3,14 @@ Changelog
 
 1.3.dev0 - (unreleased)
 -----------------------
+* Bug fix: fixed issue with the equivalent sets
+  [valipod refs #84294]
+* Feature: added metadata info to the suggestion dialog
+  [valipod refs #84294]
 
 1.2 - (2017-04-14)
 ------------------
-* Big fix: Remove hard dependency on plone.app.async and eea.versions
+* Bug fix: Remove hard dependency on plone.app.async and eea.versions
   [avoinea refs #83163]
 * Bug fix: removed hard coded path in the dialog's javascript
   [valipod refs #83163]

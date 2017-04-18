@@ -47,7 +47,7 @@
 
 #similarity-dialog ul {
   margin-left: 0;
-  font-size: 14px;
+  font-size: 12px;
 }
 #similarity-dialog li {
   display: list-item;
@@ -57,4 +57,11 @@
 }
 .similarity-dialog .eea-icon-clock-o {
   margin-top: 13px;
+}
+.suggestion-details{
+  color: #666;
+  font-size: 85%;
+}
+.portalType{
+  font-weight: bold;
 }

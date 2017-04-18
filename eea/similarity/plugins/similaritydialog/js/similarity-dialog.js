@@ -36,10 +36,29 @@
             list.append($('<li/>')
                 .append(
                     $('<a/>')
-                        .attr('title', 'Similarity score: ' + sugg[1])
+                        .attr('title', 'Similarity score: ' + sugg[4])
                         .attr('href', url).append(sugg[0])
                 )
-                .append('<br/>(similarity score: ' + sugg[1] + ')')
+                .append($('<span>').attr('class', 'suggestion-details')
+                    .append(' (similarity score: ' + sugg[4] + ')')
+                )
+                .append($('<div/>')
+                    .attr('class', 'suggestion-details')
+                    .append($('<span>')
+                        .attr('class', 'portalType').text(sugg[1]))
+                    .append($('<span>').attr('class', 'docDate creationDate')
+                        .append(
+                            $('<span>').attr('class', 'byline-separator')
+                        )
+                        .append('Created ' + sugg[2])
+                    )
+                    .append($('<span>').attr('class', 'docDate publishDate')
+                        .append(
+                            $('<span>').attr('class', 'byline-separator')
+                        )
+                        .append('Published ' + sugg[3])
+                    )
+                )
             );
         });
         var html = $('<div/>').attr('id', 'similarity-dialog')
