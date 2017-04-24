@@ -50,7 +50,7 @@ class Suggestions(BrowserView):
         settings = IEEASimilaritySettings(self.context).settings
         if length > 4:
             return float(settings.threshold2)
-        elif length > 2:
+        else:
             return float(settings.threshold1)
 
     def __call__(self):
@@ -67,6 +67,7 @@ class Suggestions(BrowserView):
             equiv_types = [equiv_set.replace(' ', '').split(',')
                        for equiv_set in settings.equivalent_content_types]
         max_suggestions = settings.number_of_suggestions or 5
+        min_words = settings.min_words or 3
         catalog = getSite().portal_catalog
         candidates = OrderedDict()
         title = self.request.get('title')
@@ -77,14 +78,7 @@ class Suggestions(BrowserView):
         for equiv_set in equiv_types:
             if portal_type in equiv_set:
                 equivs.extend(equiv_set)
-        if len(words) < 3:
-            brains = catalog({'Title': words})
-            for brain in brains:
-                if brain.portal_type in equivs:
-                    ob_to_candidate(brain.getObject(), candidates)
-                    if len(candidates) == max_suggestions:
-                        break
-        else:
+        if len(words) >= min_words:
             dictionary, corpus, lsi, index = get_gensim_data()
             vec_bow = dictionary.doc2bow([stem(word) for word in words])
             vec_lsi = lsi[vec_bow]

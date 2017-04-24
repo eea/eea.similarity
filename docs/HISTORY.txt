@@ -3,6 +3,9 @@ Changelog
 
 1.4.dev0 - (unreleased)
 -----------------------
+* Feature: add control panel option to show suggestions only after a certain
+  title length
+  [valipod refs #84480]
 * Change: updated package information
 [eduard-fironda]
 

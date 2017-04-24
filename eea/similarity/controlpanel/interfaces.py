@@ -31,6 +31,15 @@ class IEEASimilaritySettings(Interface):
             vocabulary=u"plone.app.vocabularies.ReallyUserFriendlyTypes")
     )
 
+    min_words = schema.Int(
+        title=_(u"Minimum number of words in title"),
+        description=_(
+            u"Suggestions are disabled for titles with less words"
+        ),
+        default=3,
+        required=True,
+    )
+
     equivalent_content_types = schema.List(
         title=_(u"Equivalent content types"),
         description=_(
@@ -98,16 +107,17 @@ class IEEASimilaritySettings(Interface):
     )
 
     threshold1 = schema.TextLine(
-        title=_(u"Similarity threshold for 3-4 words titles"),
+        title=_(u"Similarity threshold for titles with less than 5 words"),
         description=_(
-            u"Define the similarity score threshold for 3-4 words titles."
+            u"Define the similarity score threshold for titles"
+            u" with less than 5 words."
         ),
         required=True,
         default=u'0.99',
     )
 
     threshold2 = schema.TextLine(
-        title=_(u"Similarity threshold for titles with more than 4 words"),
+        title=_(u"Similarity threshold for titles with 5 or more words"),
         description=_(
             u"Define the similarity score threshold for titles with "
             u"more than 4 words."
