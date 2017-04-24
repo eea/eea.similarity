@@ -7,7 +7,7 @@ Changelog
   title length
   [valipod refs #84480]
 * Change: updated package information
-[eduard-fironda]
+  [eduard-fironda]
 
 1.3 - (2017-04-19)
 ------------------
