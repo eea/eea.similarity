@@ -4,16 +4,18 @@ import os
 import datetime
 import json
 import logging
+from collections import OrderedDict
 import pytz
+
 from zope.interface import Interface
-from Products.Five import BrowserView
 from zope.component.hooks import getSite
 from zope.component import queryUtility, queryAdapter
+from Products.Five import BrowserView
 from gensim import corpora, models, similarities
 from gensim.utils import simple_preprocess
 from gensim.parsing.preprocessing import STOPWORDS
-from collections import OrderedDict
 from stemming.porter2 import stem
+
 from eea.similarity.interfaces import IEEASimilaritySettings
 
 try:
@@ -35,37 +37,38 @@ logger = logging.getLogger('eea.similarity')
 
 
 def get_gensim_data():
-    dictionary = corpora.Dictionary.load(SUGGESTIONS_PATH +
-                                         '/dictionary.dict')
-    corpus = corpora.MmCorpus(SUGGESTIONS_PATH +  '/corpus.mm')
-    lsi = models.LsiModel.load(SUGGESTIONS_PATH +  '/lsi.lsi')
+    """ load the gensim data stored on disk """
+    dictionary = corpora.Dictionary.load(SUGGESTIONS_PATH + '/dictionary.dict')
+    corpus = corpora.MmCorpus(SUGGESTIONS_PATH + '/corpus.mm')
+    lsi = models.LsiModel.load(SUGGESTIONS_PATH + '/lsi.lsi')
     index = similarities.MatrixSimilarity.load(SUGGESTIONS_PATH +
                                                '/index.index')
     return dictionary, corpus, lsi, index
 
 
 class Suggestions(BrowserView):
+    """ Suggestions class """
 
     def reference_threshold(self, length):
+        """ return the reference threshold """
         settings = IEEASimilaritySettings(self.context).settings
         if length > 4:
             return float(settings.threshold2)
-        else:
-            return float(settings.threshold1)
+        return float(settings.threshold1)
 
     def __call__(self):
         """ returns a json with candidates of duplication
         """
         lang = getattr(self.context, 'getLanguage', lambda: 'en')
         if lang() != 'en':
-            #suggestions only work for English
+            # suggestions only work for English
             return
         settings = IEEASimilaritySettings(self.context).settings
         max_difference = float(settings.max_difference) or MAX_DIFFERENCE
         equiv_types = []
         if settings.equivalent_content_types:
             equiv_types = [equiv_set.replace(' ', '').split(',')
-                       for equiv_set in settings.equivalent_content_types]
+                           for equiv_set in settings.equivalent_content_types]
         max_suggestions = settings.number_of_suggestions or 5
         min_words = settings.min_words or 3
         catalog = getSite().portal_catalog
@@ -103,7 +106,8 @@ class Suggestions(BrowserView):
                 except NameError:
                     logger.error('Catalog UID not found')
                 except IndexError:
-                    logger.error('Object with UID %s not found in catalog' % uid)
+                    logger.error('Object with UID %s not found in catalog',
+                                 uid)
                 else:
                     if brain.portal_type in equivs:
                         try:
@@ -124,7 +128,9 @@ class Suggestions(BrowserView):
                     break
         return json.dumps(candidates)
 
+
 def ob_to_candidate(ob, candidates, similarity_score='unavailable'):
+    """ Add object's details to the candidates dict """
     url = '/' + ob.absolute_url(1)
     creation_date = getSite().toLocalizedTime(ob.CreationDate())
     publish_date = getSite().toLocalizedTime(ob.EffectiveDate())
@@ -132,7 +138,9 @@ def ob_to_candidate(ob, candidates, similarity_score='unavailable'):
                        publish_date or 'not available',
                        similarity_score]
 
+
 def task_create_idf_index(context):
+    """ create the idf index """
     site = getSite()
     catalog = site.portal_catalog
     settings = IEEASimilaritySettings(context).settings
@@ -144,21 +152,21 @@ def task_create_idf_index(context):
               deacc=True) if not settings.remove_stopwords or
               word not in STOPWORDS] +
              [brain.UID.encode('utf8')]
-              for brain in catalog(**query) if brain.Title]
+             for brain in catalog(**query) if brain.Title]
     dictionary = corpora.Dictionary(texts)
-    dictionary.save(SUGGESTIONS_PATH +  '/dictionary.dict')
+    dictionary.save(SUGGESTIONS_PATH + '/dictionary.dict')
     corpus = [dictionary.doc2bow(text) for text in texts]
-    corpora.MmCorpus.serialize(SUGGESTIONS_PATH +  '/corpus.mm', corpus)
+    corpora.MmCorpus.serialize(SUGGESTIONS_PATH + '/corpus.mm', corpus)
     lsi = models.LsiModel(corpus, id2word=dictionary, num_topics=200)
-    lsi.save(SUGGESTIONS_PATH +  '/lsi.lsi')
+    lsi.save(SUGGESTIONS_PATH + '/lsi.lsi')
     index = similarities.MatrixSimilarity(lsi[corpus], num_features=200)
-    index.save(SUGGESTIONS_PATH +  '/index.index')
+    index.save(SUGGESTIONS_PATH + '/index.index')
 
-    async = queryUtility(IAsyncService)
-    if async is not None:
+    async_service = queryUtility(IAsyncService)
+    if async_service is not None:
         frequency = settings.refresh_frequency or 24
         delay = datetime.timedelta(hours=frequency)
-        async.queueJobWithDelay(
+        async_service.queueJobWithDelay(
             None,
             datetime.datetime.now(pytz.UTC) + delay,
             task_create_idf_index,
@@ -169,9 +177,9 @@ class TFIDFIndex(BrowserView):
     """ creates dictionary, corpus, lsi and index for the TF-IDF"""
 
     def __call__(self):
-        async = queryUtility(IAsyncService)
-        if async is not None:
-            job = async.queueJob(task_create_idf_index, self.context)
+        async_service = queryUtility(IAsyncService)
+        if async_service is not None:
+            async_service.queueJob(task_create_idf_index, self.context)
         else:
             task_create_idf_index(self.context)
         return "OK"
@@ -181,6 +189,7 @@ class SimilaritySettings(BrowserView):
     """ return parts of the registry settings
     """
     def enabled(self):
+        """ return True if the similarity package is enabled """
         return IEEASimilaritySettings(self.context).enabled
 
 

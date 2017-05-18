@@ -12,16 +12,19 @@ import eea.similarity
 
 
 class EeaSimilarityLayer(PloneSandboxLayer):
+    """ EEA Similarity Layer """
 
     defaultBases = (PLONE_FIXTURE,)
 
     def setUpZope(self, app, configurationContext):
+        """ set up Zope"""
         # Load any other ZCML that is required for your tests.
         # The z3c.autoinclude feature is disabled in the Plone fixture base
         # layer.
         self.loadZCML(package=eea.similarity)
 
     def setUpPloneSite(self, portal):
+        """ set up Plone site """
         applyProfile(portal, 'eea.similarity:default')
 
 EEA_SIMILARITY_FIXTURE = EeaSimilarityLayer()

@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 """ Setup tests for this package.
 """
-from plone import api
-from eea.similarity.testing import EEA_SIMILARITY_INTEGRATION_TESTING  # noqa
 import unittest
+
+from plone import api
+
+from eea.similarity.testing import EEA_SIMILARITY_INTEGRATION_TESTING  # noqa
 
 
 class TestSetup(unittest.TestCase):
@@ -30,6 +32,7 @@ class TestSetup(unittest.TestCase):
 
 
 class TestUninstall(unittest.TestCase):
+    """Test that eea.similarity is properly uninstalled."""
 
     layer = EEA_SIMILARITY_INTEGRATION_TESTING
 

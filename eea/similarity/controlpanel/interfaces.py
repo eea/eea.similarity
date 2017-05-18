@@ -9,7 +9,6 @@ from zope.interface import Interface
 from zope import schema
 from plone.autoform import directives as aform
 from eea.similarity.config import EEAMessageFactory as _
-from decimal import Decimal
 
 
 class IEEASimilaritySettings(Interface):
@@ -83,8 +82,8 @@ class IEEASimilaritySettings(Interface):
     refresh_frequency = schema.Int(
         title=_(u"TF-IDF index refresh frequency"),
         description=_(
-            u"Specify the interval (in hours) at which the TF-IDF index should "
-            u"be rebuilt."
+            u"Specify the interval (in hours) at which the TF-IDF index "
+            u"should be rebuilt."
         ),
         default=24,
         required=False,
