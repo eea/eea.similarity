@@ -40,6 +40,7 @@ setup(name=NAME,
       install_requires=[
           'setuptools',
           # -*- Extra requirements: -*-
+          'pytz',
           'gensim',
           'stemming',
           'numpy',
