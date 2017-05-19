@@ -23,8 +23,8 @@ except ImportError:
         """ No versioning """
 
 MAX_DIFFERENCE = 0.1
-SUGGESTIONS_PATH = os.environ.get(
-    'EEASIMILARITY_PATH', os.environ.get('EEASUGGESTIONS_PATH', '/tmp')
+SUGGESTIONS_PATH = os.environ.get('EEASIMILARITY_PATH',
+                   os.environ.get('EEASUGGESTIONS_PATH', '/tmp'))
 
 logger = logging.getLogger('eea.similarity')
 
@@ -74,51 +74,54 @@ class Suggestions(BrowserView):
         for equiv_set in equiv_types:
             if portal_type in equiv_set:
                 equivs.extend(equiv_set)
-        if len(words) >= min_words:
-            dictionary, corpus, lsi, index = get_gensim_data()
-            vec_bow = dictionary.doc2bow([stem(word) for word in words])
-            vec_lsi = lsi[vec_bow]
-            sims = index[vec_lsi]
-            sims = sorted(enumerate(sims), key=lambda item: -item[1])
-            previous_note = 0
-            for sim in sims:
-                if sim[1] < self.reference_threshold(
-                        len(words)) or (
-                        previous_note - sim[1] > max_difference):
-                    # if the difference in similarity is big,
-                    # next candidates are no longer interesting
-                    break
-                previous_note = sim[1]
 
-                for word_id in corpus[sim[0]]:
-                    if len(dictionary[word_id[0]].replace('-', '')) == 32:
-                        uid = dictionary[word_id[0]]
-                        break
-                try:
-                    brain = catalog({'UID': [uid, uid.upper()]})[0]
-                except NameError:
-                    logger.error('Catalog UID not found')
-                except IndexError:
-                    logger.error('Object with UID %s not found in catalog',
-                                 uid)
-                else:
-                    if brain.portal_type in equivs:
-                        try:
-                            latest = brain.getObject()
-                            versions = queryAdapter(latest, IGetVersions)
-                            if versions is not None:
-                                latest = versions.latest_version()
-                            url = '/' + latest.absolute_url(1)
-                            if url not in candidates:
-                                ob_to_candidate(
-                                    latest, candidates, str(sim[1]))
-                        except TypeError:
-                            url = brain.getURL()
-                            if url not in candidates:
-                                ob_to_candidate(
-                                    brain.getObject(), candidates, str(sim[1]))
-                if len(candidates) == max_suggestions:
+        if len(words) < min_words:
+            return json.dumps(candidates)
+
+        dictionary, corpus, lsi, index = get_gensim_data()
+        vec_bow = dictionary.doc2bow([stem(word) for word in words])
+        vec_lsi = lsi[vec_bow]
+        sims = index[vec_lsi]
+        sims = sorted(enumerate(sims), key=lambda item: -item[1])
+        previous_note = 0
+        for sim in sims:
+            if sim[1] < self.reference_threshold(
+                    len(words)) or (
+                    previous_note - sim[1] > max_difference):
+                # if the difference in similarity is big,
+                # next candidates are no longer interesting
+                break
+            previous_note = sim[1]
+
+            for word_id in corpus[sim[0]]:
+                if len(dictionary[word_id[0]].replace('-', '')) == 32:
+                    uid = dictionary[word_id[0]]
                     break
+            try:
+                brain = catalog({'UID': [uid, uid.upper()]})[0]
+            except NameError:
+                logger.error('Catalog UID not found')
+            except IndexError:
+                logger.error('Object with UID %s not found in catalog',
+                             uid)
+            else:
+                if brain.portal_type in equivs:
+                    try:
+                        latest = brain.getObject()
+                        versions = queryAdapter(latest, IGetVersions)
+                        if versions is not None:
+                            latest = versions.latest_version()
+                        url = '/' + latest.absolute_url(1)
+                        if url not in candidates:
+                            ob_to_candidate(
+                                latest, candidates, str(sim[1]))
+                    except TypeError:
+                        url = brain.getURL()
+                        if url not in candidates:
+                            ob_to_candidate(
+                                brain.getObject(), candidates, str(sim[1]))
+            if len(candidates) == max_suggestions:
+                break
         return json.dumps(candidates)
 
 
