@@ -6,7 +6,6 @@ import json
 import logging
 from collections import OrderedDict
 import pytz
-
 from zope.interface import Interface
 from zope.component.hooks import getSite
 from zope.component import queryUtility, queryAdapter
@@ -15,23 +14,17 @@ from gensim import corpora, models, similarities
 from gensim.utils import simple_preprocess
 from gensim.parsing.preprocessing import STOPWORDS
 from stemming.porter2 import stem
-
 from eea.similarity.interfaces import IEEASimilaritySettings
-
+from eea.similarity.async import IAsyncService
 try:
     from eea.versions.interfaces import IGetVersions
 except ImportError:
     class IGetVersions(Interface):
         """ No versioning """
 
-try:
-    from plone.app.async.interfaces import IAsyncService
-except ImportError:
-    class IAsyncService(Interface):
-        """ No async """
-
 MAX_DIFFERENCE = 0.1
-SUGGESTIONS_PATH = os.environ.get('EEASUGGESTIONS_PATH', '/tmp')
+SUGGESTIONS_PATH = os.environ.get(
+    'EEASIMILARITY_PATH', os.environ.get('EEASUGGESTIONS_PATH', '/tmp')
 
 logger = logging.getLogger('eea.similarity')
 
@@ -166,11 +159,13 @@ def task_create_idf_index(context):
     if async_service is not None:
         frequency = settings.refresh_frequency or 24
         delay = datetime.timedelta(hours=frequency)
-        async_service.queueJobWithDelay(
-            None,
-            datetime.datetime.now(pytz.UTC) + delay,
+        queue = async_service.getQueues()['']
+        async_service.queueJobInQueueWithDelay(
+            None, datetime.datetime.now(pytz.UTC) + delay,
+            queue, ('similarity',),
             task_create_idf_index,
-            context)
+            context
+        )
 
 
 class TFIDFIndex(BrowserView):
@@ -179,7 +174,12 @@ class TFIDFIndex(BrowserView):
     def __call__(self):
         async_service = queryUtility(IAsyncService)
         if async_service is not None:
-            async_service.queueJob(task_create_idf_index, self.context)
+            queue = async_service.getQueues()['']
+            async_service.queueJobInQueue(
+                queue, ('similarity',),
+                task_create_idf_index,
+                self.context
+            )
         else:
             task_create_idf_index(self.context)
         return "OK"

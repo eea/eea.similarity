@@ -1,0 +1,11 @@
+<configure
+  xmlns="http://namespaces.zope.org/zope"
+  i18n_domain="eea">
+
+  <permission
+    id="eea.similarity.idf.create"
+    title="Create IDF Index"
+    description="Can re-generate IDF index"
+    />
+
+</configure>

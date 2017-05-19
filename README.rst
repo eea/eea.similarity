@@ -5,7 +5,7 @@ EEA Similarity
 Introduction
 ============
 
-EEA Similarity is a Plone_ add-on which provides content suggestions based on similarity scores to a search string. It uses NLP algorithms like TF-IDF (frequency–inverse document frequency) and LSI (Latent Semantic Indexing). 
+EEA Similarity is a Plone_ add-on which provides content suggestions based on similarity scores to a search string. It uses NLP algorithms like TF-IDF (frequency–inverse document frequency) and LSI (Latent Semantic Indexing).
 
 Initial use case is to provide a list of possible duplicates when adding content (based on the entered title).
 
@@ -43,6 +43,17 @@ recipe to manage your project, you can do this:
 
 You can skip the ZCML slug if you are going to explicitly include the package
 from another package's configure.zcml file.
+
+
+Getting started
+===============
+
+1. Go to **Site Setup > Add-ons** and install **EEA Similarity**
+2. Create IDF index by calling **@@create_idf_index** Browser view on site root.
+   If you have **plone.app.async** installed, it will add a daily job to async queue,
+   otherwise you'll have to setup an external cron job to call this periodically.
+3. Customize settings via Site Setup > EEA Similarity Settings
+
 
 Dependencies
 ============

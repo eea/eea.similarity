@@ -7,9 +7,12 @@
 
   <includeDependencies package="." />
   <include file="profiles.zcml" />
+  <include file="permissions.zcml" />
 
+  <include package=".async" />
   <include package=".browser" />
   <include package=".controlpanel" />
   <include package=".plugins" />
+  <include package=".upgrades" />
 
 </configure>

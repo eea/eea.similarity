@@ -12,8 +12,8 @@
       for="*"
       name="get_suggestions"
       class="eea.similarity.similarities.Suggestions"
-      permission="cmf.ModifyPortalContent"
       allowed_attributes="title"
+      permission="cmf.ModifyPortalContent"
       />
 
   <browser:page
@@ -25,17 +25,17 @@
 
   <browser:page
       for="*"
-      name="create_idf_index"
-      class="eea.similarity.similarities.TFIDFIndex"
-      permission="zope2.View"
+      name="similarity_settings"
+      class="eea.similarity.similarities.SimilaritySettings"
+      allowed_attributes="enabled"
+      permission="cmf.ModifyPortalContent"
       />
 
   <browser:page
       for="*"
-      name="similarity_settings"
-      class="eea.similarity.similarities.SimilaritySettings"
-      permission="cmf.ModifyPortalContent"
-      allowed_attributes="enabled"
+      name="create_idf_index"
+      class="eea.similarity.similarities.TFIDFIndex"
+      permission="eea.similarity.idf.create"
       />
 
 </configure>
