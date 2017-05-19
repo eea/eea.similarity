@@ -5,6 +5,7 @@ import datetime
 import json
 import logging
 from collections import OrderedDict
+import pytz
 from zope.interface import Interface
 from zope.component.hooks import getSite
 from zope.component import queryUtility, queryAdapter
@@ -163,7 +164,7 @@ def task_create_idf_index(context):
         delay = datetime.timedelta(hours=frequency)
         queue = async_service.getQueues()['']
         async_service.queueJobInQueueWithDelay(
-            None, datetime.datetime.now() + delay,
+            None, datetime.datetime.now(pytz.UTC) + delay,
             queue, ('similarity',),
             task_create_idf_index,
             context

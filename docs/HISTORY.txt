@@ -8,8 +8,6 @@ Changelog
   [avoinea refs #84915]
 * Change: Add dedicated async quota for similarity jobs
   [avoinea refs #84915]
-* Change: Remove pytz hard-dependency
-  [avoinea]
 * Change: fixed PyLint warnings and errors
   [valipod refs #84949]
 
