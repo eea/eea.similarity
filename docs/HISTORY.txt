@@ -3,6 +3,9 @@ Changelog
 
 1.5.dev0 - (unreleased)
 -----------------------
+* Upgrade step: Within "Plone > Site setup > Add-ons" click on
+  upgrade button available for EEA Similarity
+  [avoinea refs #84915]
 * Change: Add dedicated async quota for similarity jobs
   [avoinea refs #84915]
 * Change: fixed PyLint warnings and errors
