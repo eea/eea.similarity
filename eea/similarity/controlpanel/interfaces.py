@@ -112,7 +112,7 @@ class IEEASimilaritySettings(Interface):
             u" with less than 5 words."
         ),
         required=True,
-        default=u'0.99',
+        default=u'0.8',
     )
 
     threshold2 = schema.TextLine(
@@ -122,5 +122,5 @@ class IEEASimilaritySettings(Interface):
             u"more than 4 words."
         ),
         required=True,
-        default=u'0.9',
+        default=u'0.8',
     )
