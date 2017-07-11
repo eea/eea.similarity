@@ -69,6 +69,7 @@ class Suggestions(BrowserView):
         title = self.request.get('title')
         words = [word for word in simple_preprocess(title, deacc=True)
                  if not settings.remove_stopwords or word not in STOPWORDS]
+        all_content_types = self.request.get('all_content_types')
         portal_type = self.request.get('portal_type')
         equivs = [portal_type]
         for equiv_set in equiv_types:
@@ -84,9 +85,11 @@ class Suggestions(BrowserView):
         sims = index[vec_lsi]
         sims = sorted(enumerate(sims), key=lambda item: -item[1])
         previous_note = 0
+        threshold = float(
+            self.request.get('threshold',
+                             self.reference_threshold(len(words))))
         for sim in sims:
-            if sim[1] < self.reference_threshold(
-                    len(words)) or (
+            if sim[1] < threshold or (
                     previous_note - sim[1] > max_difference):
                 # if the difference in similarity is big,
                 # next candidates are no longer interesting
@@ -105,21 +108,25 @@ class Suggestions(BrowserView):
                 logger.error('Object with UID %s not found in catalog',
                              uid)
             else:
-                if brain.portal_type in equivs:
+                if all_content_types or brain.portal_type in equivs:
                     try:
                         latest = brain.getObject()
                         versions = queryAdapter(latest, IGetVersions)
                         if versions is not None:
                             latest = versions.latest_version()
-                        url = '/' + latest.absolute_url(1)
-                        if url not in candidates:
-                            ob_to_candidate(
-                                latest, candidates, str(sim[1]))
+                        # on edit we don't want the context to be suggested
+                        if latest != self.context:
+                            url = '/' + latest.absolute_url(1)
+                            if url not in candidates:
+                                ob_to_candidate(
+                                    latest, candidates, str(sim[1]))
                     except TypeError:
-                        url = brain.getURL()
-                        if url not in candidates:
-                            ob_to_candidate(
-                                brain.getObject(), candidates, str(sim[1]))
+                        ob = brain.getObject()
+                        if ob != self.context:
+                            url = brain.getURL()
+                            if url not in candidates:
+                                ob_to_candidate(
+                                    brain.getObject(), candidates, str(sim[1]))
             if len(candidates) == max_suggestions:
                 break
         return json.dumps(candidates)
@@ -201,5 +208,7 @@ class SuggestionsText(BrowserView):
 
     def __call__(self):
         settings = IEEASimilaritySettings(self.context)
-        text = [settings.dialog_title, settings.dialog_text]
+        text = [settings.dialog_title, settings.dialog_text,
+                settings.dialog_title_no_suggestions,
+                settings.dialog_text_no_suggestions]
         return json.dumps(text)

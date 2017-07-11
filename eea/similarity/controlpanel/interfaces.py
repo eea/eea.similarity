@@ -30,6 +30,17 @@ class IEEASimilaritySettings(Interface):
             vocabulary=u"plone.app.vocabularies.ReallyUserFriendlyTypes")
     )
 
+    all_content_types = schema.Bool(
+        title=_(u"Allow all content types"),
+        description=_(
+            u"Should all content types be taken into consideration when looking"
+            u" for similar objects? (alternatively only the current object's "
+            u" portal type and possible equivalent types are considered)."
+        ),
+        default=False,
+        required=False,
+    )
+
     min_words = schema.Int(
         title=_(u"Minimum number of words in title"),
         description=_(
@@ -94,6 +105,7 @@ class IEEASimilaritySettings(Interface):
         description=_(
             u"Customise the title of the dialog window"
         ),
+        default=u"Similar content found!",
         required=False,
     )
 
@@ -102,6 +114,29 @@ class IEEASimilaritySettings(Interface):
         description=_(
             u"Customise the text of the dialog window"
         ),
+        default=u"We have found very similar content based on the entered title "
+                u"so far. They may be duplicates or possible content to link to.",
+        required=False,
+    )
+
+    dialog_title_no_suggestions= schema.TextLine(
+        title=_(u"Dialog title - no suggestions"),
+        description=_(
+            u"Customise the title of the dialog window for the case when there "
+            u"are no suggestions"
+        ),
+        default=u"Similar content",
+        required=False,
+    )
+
+    dialog_text_no_suggestions = schema.Text(
+        title=_(u"Dialog text - no suggestions"),
+        description=_(
+            u"Customise the text of the dialog window for the case when there "
+            u"are no suggestions"
+        ),
+        default=u"There are no suggestions for duplicate content based on the "
+                u"title",
         required=False,
     )
 

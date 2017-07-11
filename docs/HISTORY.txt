@@ -3,6 +3,22 @@ Changelog
 
 1.6.dev0 - (unreleased)
 -----------------------
+* Upgrade step: Within "Plone > Site setup > Add-ons" click on
+  upgrade button available for EEA Similarity
+  [valipod refs #84915]
+* the similarity check is now available on edit pages
+  [valipod refs #85448]
+* the similarity threshold can be passed as parameter
+  [valipod refs #85448]
+* added possibility to turn on check for all content types
+  [valipod refs #85448]
+* button to request the similarity check manually
+  [valipod refs #85448]
+* suggest popup appears even if there are now suggestions (different message)
+  [valipod refs #85448]
+* integrated the suggest popup also for indicators aggregated edit
+  [valipod refs #85448]
+
 
 1.5 - (2017-05-22)
 ------------------

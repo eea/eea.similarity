@@ -1,18 +1,19 @@
-<configure
-  xmlns="http://namespaces.zope.org/zope"
+<configure xmlns="http://namespaces.zope.org/zope"
+  xmlns:zcml="http://namespaces.zope.org/zcml"
   xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
   i18n_domain="eea">
 
-  <genericsetup:upgradeSteps
-            source="1.0"
-            destination="1.5"
-            profile="eea.similarity:default">
+  <!-- 1.5 => 1.6-->
+   <genericsetup:upgradeSteps
+     source="1.5"
+     destination="1.6"
+     profile="eea.similarity:default">
 
-    <genericsetup:upgradeDepends
-      title="Import steps with changes: rolemap"
-      import_steps="rolemap"
-      />
+     <genericsetup:upgradeDepends
+       title="Import steps with changes: plone.app.registry"
+       import_steps="plone.app.registry"
+     />
 
-  </genericsetup:upgradeSteps>
+   </genericsetup:upgradeSteps>
 
 </configure>
