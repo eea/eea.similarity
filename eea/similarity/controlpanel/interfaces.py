@@ -111,19 +111,19 @@ class IEEASimilaritySettings(Interface):
 
     dialog_text = schema.Text(
         title=_(u"Dialog text"),
-        description=_(
-            u"Customise the text of the dialog window"
+        description=_(u"Customise the text of the dialog window"),
+        default=(
+            u"We have found very similar content based on the entered title "
+            u"so far. They may be duplicates or possible content to link to."
         ),
-        default=u"We have found very similar content based on the entered title "
-                u"so far. They may be duplicates or possible content to link to.",
         required=False,
     )
 
-    dialog_title_no_suggestions= schema.TextLine(
+    dialog_title_no_suggestions = schema.TextLine(
         title=_(u"Dialog title - no suggestions"),
         description=_(
-            u"Customise the title of the dialog window for the case when there "
-            u"are no suggestions"
+            u"Customise the title of the dialog window for the case when there"
+            u" are no suggestions"
         ),
         default=u"Similar content",
         required=False,
@@ -132,11 +132,11 @@ class IEEASimilaritySettings(Interface):
     dialog_text_no_suggestions = schema.Text(
         title=_(u"Dialog text - no suggestions"),
         description=_(
-            u"Customise the text of the dialog window for the case when there "
-            u"are no suggestions"
+            u"Customise the text of the dialog window for the case when there"
+            u" are no suggestions"
         ),
-        default=u"There are no suggestions for duplicate content based on the "
-                u"title",
+        default=u"There are no suggestions for duplicate content based on the"
+                u" title",
         required=False,
     )
 
