@@ -3,8 +3,8 @@
 
     var title = 'Please check these possible duplicates:';
     var title_no_suggestions = 'Please check these possible duplicates:';
-    var message = 'We have found a list of possible duplicates based on your title choice:'
-    var message_no_suggestions = 'There are no suggestions for duplicate content based on the title'
+    var message = 'We have found a list of possible duplicates based on your title choice:';
+    var message_no_suggestions = 'There are no suggestions for duplicate content based on the title';
     var text_data = $.ajax({
         url: $('base').attr('href').split('portal_factory')[0] + 'get_suggestions_text',
         type: 'get',
@@ -32,7 +32,7 @@
       message_no_suggestions: message_no_suggestions,
       counter: 0,
       dialog_width: 383
-    }
+    };
 
     $.extend(settings, options);
 
@@ -41,7 +41,7 @@
         var self = this;
         //self.destroyDialog();
 
-        var suggestions = Object.keys(options['suggestions']).length;
+        var suggestions = Object.keys(options.suggestions).length;
         var current_title;
         var current_message;
 
@@ -102,7 +102,7 @@
                   effect: "fade",
                   duration: 1000
                 },
-          position: { my: "right top", at: "right bottom", of: window },
+          position: { my: "right top", at: "right bottom", of: window }
         });
 
       },
@@ -112,7 +112,7 @@
           $(this).dialog("close");
           $('#similarity-dialog').remove();
         }
-      },
+      }
 
     };
 
@@ -120,13 +120,29 @@
   };
 }(window.jQuery);
 
+
+function suggestions_dialog(){
+    title = $('#title').val();
+    $('#similarity-dialog').remove();
+    var suggestions = $.get(
+        $('base').attr('href').split('portal_factory')[0] + 'get_suggestions',
+        {'portal_type': portal_type, 'title': title},
+        function(data){
+            $.suggestionsDialog({
+                'suggestions': data
+            });
+        },
+        'json');
+}
+
+
 $().ready(function(){
     var title;
     $('body').on('focusin', '#title', function(){
       if(!$('#get-suggestions').length){
         $(this).parent().parent().parent().parent().parent().parent().css({
             'overflow': 'hidden'
-        })
+        });
         $(this)
           .animate({width: '95%'}, 600)
           .parent().append(
@@ -169,7 +185,7 @@ $().ready(function(){
                         $('<span>')
                             .text('\u25BC')
                             .css({
-                              'content':'\25BC',
+                              'content':'\u25BC',
                               'position':'absolute',
                               'left':'75%',
                               'width':'0',
@@ -178,11 +194,12 @@ $().ready(function(){
                               'text-shadow':'0px 3px 2px #ccc',
                               'font-size':'2em',
                               'pointer-events':'none',
-                              'top': '33px',
+                              'top': '33px'
                             })
                     )
             )
-      )}
+          );
+      }
       $('#get-suggestions').animate(
           {opacity: 'show'},
           {duration: 600,
@@ -196,7 +213,7 @@ $().ready(function(){
                       }, 5000);
                    }
                   }
-              )
+              );
            }
           }
       );
@@ -204,7 +221,7 @@ $().ready(function(){
       title = $('#title').val();
     });
     var url = window.location.href;
-    $("head").append($('<style>.similarities-helper:after {content:\25BC; position:absolute; left:45%; width:0; height:0; color:white; text-shadow:0px 2px 3px #aaa; font-size:2em; pointer-events:none}</style>'));
+    $("head").append($('<style>.similarities-helper:after {content:\u25BC; position:absolute; left:45%; width:0; height:0; color:white; text-shadow:0px 2px 3px #aaa; font-size:2em; pointer-events:none}</style>'));
     $('#title')
       .parent().append(
         $('<a/>')
@@ -247,7 +264,7 @@ $().ready(function(){
                         $('<span>')
                             .text('\u25BC')
                             .css({
-                              'content':'\25BC',
+                              'content':'\u25BC',
                               'position':'absolute',
                               'left':'45%',
                               'width':'0',
@@ -256,7 +273,7 @@ $().ready(function(){
                               'text-shadow':'0px 3px 2px #ccc',
                               'font-size':'2em',
                               'pointer-events':'none',
-                              'top': '33px',
+                              'top': '33px'
                             })
                     )
 
@@ -278,7 +295,7 @@ $().ready(function(){
                         }, 5000);
                      }
                     }
-                )
+                );
              }
             }
         );
@@ -295,16 +312,3 @@ $().ready(function(){
     });
 });
 
-function suggestions_dialog(){
-    title = $('#title').val();
-    $('#similarity-dialog').remove();
-    var suggestions = $.get(
-        $('base').attr('href').split('portal_factory')[0] + 'get_suggestions',
-        {'portal_type': portal_type, 'title': title},
-        function(data){
-            $.suggestionsDialog({
-                'suggestions': data
-            });
-        },
-        'json')
-}
