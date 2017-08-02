@@ -46,6 +46,7 @@ setup(name=NAME,
           'numpy',
           'scipy',
           'plone.api',
+          'plone.app.robotframework',
       ],
       extras_require={
           'test': [
