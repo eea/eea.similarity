@@ -49,7 +49,8 @@ setup(name=NAME,
       ],
       extras_require={
           'test': [
-              'plone.app.testing'
+              'plone.app.testing',
+              'plone.app.robotframework',
           ],
           'zope2': [
           ],
