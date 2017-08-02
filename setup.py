@@ -45,6 +45,7 @@ setup(name=NAME,
           'stemming',
           'numpy',
           'scipy',
+          'plone.api',
       ],
       extras_require={
           'test': [
