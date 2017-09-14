@@ -122,6 +122,8 @@
 
 
 function suggestions_dialog(){
+    var url = window.location.href;
+    var portal_type = url.split('/')[url.split('/').indexOf('portal_factory')+1];
     title = $('#title').val();
     $('#similarity-dialog').remove();
     var suggestions = $.get(
