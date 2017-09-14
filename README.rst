@@ -1,6 +1,8 @@
 ==============
 EEA Similarity
 ==============
+.. image:: http://ci.eionet.europa.eu/job/eea/job/eea.similarity/job/master/badge/icon
+  :target: http://ci.eionet.europa.eu/job/eea/job/eea.similarity/job/master/display/redirect
 
 Introduction
 ============
