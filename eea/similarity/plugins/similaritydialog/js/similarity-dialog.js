@@ -1,144 +1,121 @@
-!function($) {
-  $.suggestionsDialog = function(options) {
+$(function() {
+    $.suggestionsDialog = function(options) {
+      var dialog_title = 'Please check these possible duplicates:';
+      var dialog_title_no_suggestions = 'Please check these possible duplicates:';
+      var dialog_text = 'We have found a list of possible duplicates based on your title choice:';
+      var dialog_text_no_suggestions = 'There are no suggestions for duplicate content based on the title';
+      var text_data = $.ajax({
+          url: $('base').attr('href').split('portal_factory')[0] + 'get_suggestions_text',
+          type: 'get',
+          async: false,
+          dataType: 'json',
+          success: function(data){
+              if (data[0]){
+                  dialog_title = data[0];
+              }
+              if (data[1]){
+                  dialog_text = data[1];
+              }
+               if (data[2]){
+                  dialog_title_no_suggestions = data[2];
+              }
+              if (data[3]){
+                  dialog_text_no_suggestions = data[3];
+              }
+          }
+      });
+      var settings = {
+        dialog_title : dialog_title,
+        dialog_text: dialog_text,
+        dialog_title_no_suggestions : dialog_title_no_suggestions,
+        dialog_text_no_suggestions: dialog_text_no_suggestions,
+        counter: 0,
+        dialog_width: 383
+      };
 
-    var title = 'Please check these possible duplicates:';
-    var title_no_suggestions = 'Please check these possible duplicates:';
-    var message = 'We have found a list of possible duplicates based on your title choice:';
-    var message_no_suggestions = 'There are no suggestions for duplicate content based on the title';
-    var text_data = $.ajax({
-        url: $('base').attr('href').split('portal_factory')[0] + 'get_suggestions_text',
-        type: 'get',
-        async: false,
-        dataType: 'json',
-        success: function(data){
-            if (data[0]){
-                title = data[0];
-            }
-            if (data[1]){
-                message = data[1];
-            }
-            if (data[2]){
-                title_no_suggestions = data[2];
-            }
-            if (data[3]){
-                message_no_suggestions = data[3];
-            }
-        }
-    });
-    var settings = {
-      title : title,
-      message: message,
-      title_no_suggestions : title_no_suggestions,
-      message_no_suggestions: message_no_suggestions,
-      counter: 0,
-      dialog_width: 383
-    };
+      $.extend(settings, options);
 
-    $.extend(settings, options);
+      var SuggestionsDialog = {
+        setupDialog: function() {
+          var self = this;
+          self.destroyDialog();
 
-    var SuggestionsDialog = {
-      setupDialog: function() {
-        var self = this;
-        //self.destroyDialog();
+          var suggestions = Object.keys(options.suggestions).length;
+          var current_title;
+          var current_text;
 
-        var suggestions = Object.keys(options.suggestions).length;
-        var current_title;
-        var current_message;
+          if (suggestions){
+              current_title = settings.dialog_title;
+              current_text = settings.dialog_text;
+          } else {
+              current_title = settings.dialog_title_no_suggestions;
+              current_text = settings.dialog_text_no_suggestions;
+          }
+          var list = $('<ul/>');
+          $.each(settings.suggestions, function(url, sugg){
+              list.append($('<li/>')
+                  .append(
+                      $('<a/>')
+                          .attr('title', 'Similarity score: ' + sugg[4])
+                          .attr('href', url).append(sugg[0])
+                  )
+                  .append($('<span>').attr('class', 'suggestion-details')
+                      .append(' (similarity score: ' + sugg[4] + ')')
+                  )
+                  .append($('<div/>')
+                      .attr('class', 'suggestion-details')
+                       .append($('<span>')
+                          .attr('class', 'portalType').text(sugg[1]))
+                      .append($('<span>').attr('class', 'docDate creationDate')
+                          .append(
+                              $('<span>').attr('class', 'byline-separator')
+                          )
+                          .append('Created ' + sugg[2])
+                      )
+                      .append($('<span>').attr('class', 'docDate publishDate')
+                          .append(
+                              $('<span>').attr('class', 'byline-separator')
+                          )
+                          .append('Published ' + sugg[3])
+                      )
+                  )
+              );
+          });
+          var html = $('<div/>').attr('id', 'similarity-dialog')
+                           .append($('<p/>').attr('id', 'similarity-text')
+                              .append(current_text)
+                          );
+          html.append(list)
+          .appendTo('body')
+          .dialog({
+            modal: false,
+            width: settings.dialog_width,
+            minHeight: 'auto',
+            zIndex: 10000,
+            closeOnEscape: true,
+            draggable: false,
+            resizable: false,
+            dialogClass: 'similarity-dialog',
+            title: current_title,
+            show: {
+                    effect: "fade",
+                    duration: 1000
+                  },
+            position: { my: "right top", at: "right bottom", of: window }
+          });
 
-        if (suggestions){
-            current_title = settings.title;
-            current_message = settings.message;
-        } else {
-            current_title = settings.title_no_suggestions;
-            current_message = settings.message_no_suggestions;
-        }
-        var list = $('<ul/>');
-        $.each(settings.suggestions, function(url, sugg){
-            list.append($('<li/>')
-                .append(
-                    $('<a/>')
-                        .attr('title', 'Similarity score: ' + sugg[4])
-                        .attr('href', url).append(sugg[0])
-                )
-                .append($('<span>').attr('class', 'suggestion-details')
-                    .append(' (similarity score: ' + sugg[4] + ')')
-                )
-                .append($('<div/>')
-                    .attr('class', 'suggestion-details')
-                    .append($('<span>')
-                        .attr('class', 'portalType').text(sugg[1]))
-                    .append($('<span>').attr('class', 'docDate creationDate')
-                        .append(
-                            $('<span>').attr('class', 'byline-separator')
-                        )
-                        .append('Created ' + sugg[2])
-                    )
-                    .append($('<span>').attr('class', 'docDate publishDate')
-                        .append(
-                            $('<span>').attr('class', 'byline-separator')
-                        )
-                        .append('Published ' + sugg[3])
-                    )
-                )
-            );
-        });
-        var html = $('<div/>').attr('id', 'similarity-dialog')
-                        .append($('<p/>').attr('id', 'similarity-message')
-                            .append(current_message)
-                        );
-        html.append(list)
-        .appendTo('body')
-        .dialog({
-          modal: false,
-          width: settings.dialog_width,
-          minHeight: 'auto',
-          zIndex: 10000,
-          closeOnEscape: true,
-          draggable: false,
-          resizable: false,
-          dialogClass: 'similarity-dialog',
-          title: current_title,
-          show: {
-                  effect: "fade",
-                  duration: 1000
-                },
-          position: { my: "right top", at: "right bottom", of: window }
-        });
-
-      },
-
-      destroyDialog: function() {
-        if ($("#similarity-dialog").length) {
-          $(this).dialog("close");
-          $('#similarity-dialog').remove();
-        }
-      }
-
-    };
-
-    SuggestionsDialog.setupDialog();
-  };
-}(window.jQuery);
-
-
-function suggestions_dialog(){
-    var url = window.location.href;
-    var portal_type = url.split('/')[url.split('/').indexOf('portal_factory')+1];
-    title = $('#title').val();
-    $('#similarity-dialog').remove();
-    var suggestions = $.get(
-        $('base').attr('href').split('portal_factory')[0] + 'get_suggestions',
-        {'portal_type': portal_type, 'title': title},
-        function(data){
-            $.suggestionsDialog({
-                'suggestions': data
-            });
         },
-        'json');
-}
 
+        destroyDialog: function() {
+          if ($("#similarity-dialog").length) {
+            $(this).dialog("close");
+            $('#similarity-dialog').remove();
+          }
+        }
+      };
 
-$().ready(function(){
+      SuggestionsDialog.setupDialog();
+    };
     var title;
     $('body').on('focusin', '#title', function(){
       if(!$('#get-suggestions').length){
@@ -222,7 +199,6 @@ $().ready(function(){
 //      $('#get-suggestions').animate({opacity: 'show'}, 600);
       title = $('#title').val();
     });
-    var url = window.location.href;
     $("head").append($('<style>.similarities-helper:after {content:\u25BC; position:absolute; left:45%; width:0; height:0; color:white; text-shadow:0px 2px 3px #aaa; font-size:2em; pointer-events:none}</style>'));
     $('#title')
       .parent().append(
@@ -314,3 +290,26 @@ $().ready(function(){
     });
 });
 
+function suggestions_dialog(){
+    var portal_type = $('body').attr('class').match('portaltype-[a-z-]*');
+    var portal_type_length;
+    if (portal_type) {
+        alert(portal_type[0]);
+        portal_type = portal_type[0].split('-');
+        alert(portal_type);
+        portal_type_length = portal_type.length;
+        portal_type = portal_type_length === 2 ? portal_type[1] :
+            portal_type[1] + portal_type[2];
+    }
+    var title = $('#title').val();
+    $('#similarity-dialog').remove();
+    var suggestions = $.get(
+        $('base').attr('href').split('portal_factory')[0] + 'get_suggestions',
+        {'portal_type': portal_type, 'title': title},
+        function(data){
+            $.suggestionsDialog({
+                'suggestions': data
+            });
+        },
+        'json');
+}

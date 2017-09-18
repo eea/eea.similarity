@@ -60,7 +60,7 @@ class Suggestions(BrowserView):
         max_difference = float(settings.max_difference) or MAX_DIFFERENCE
         equiv_types = []
         if settings.equivalent_content_types:
-            equiv_types = [equiv_set.replace(' ', '').split(',')
+            equiv_types = [equiv_set.lower().replace(' ', '').split(',')
                            for equiv_set in settings.equivalent_content_types]
         max_suggestions = settings.number_of_suggestions or 5
         min_words = settings.min_words or 3
@@ -71,10 +71,12 @@ class Suggestions(BrowserView):
                  if not settings.remove_stopwords or word not in STOPWORDS]
         all_content_types = self.request.get('all_content_types')
         portal_type = self.request.get('portal_type')
-        equivs = [portal_type]
+        equivs = []
         for equiv_set in equiv_types:
             if portal_type in equiv_set:
                 equivs.extend(equiv_set)
+        if not equivs:
+            equivs = [portal_type]
 
         if len(words) < min_words:
             return json.dumps(candidates)
@@ -108,7 +110,7 @@ class Suggestions(BrowserView):
                 logger.error('Object with UID %s not found in catalog',
                              uid)
             else:
-                if all_content_types or brain.portal_type in equivs:
+                if all_content_types or brain.portal_type.lower() in equivs:
                     try:
                         latest = brain.getObject()
                         versions = queryAdapter(latest, IGetVersions)

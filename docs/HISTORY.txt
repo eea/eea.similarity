@@ -3,6 +3,8 @@ Changelog
 
 1.8.dev0 - (unreleased)
 -----------------------
+* bugfix in javascript
+  [valipod refs #88020]
 
 1.7 - (2017-09-15)
 ------------------
