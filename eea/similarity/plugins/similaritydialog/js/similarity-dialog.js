@@ -1,3 +1,25 @@
+function suggestions_dialog(){
+    var portal_type = $('body').attr('class').match('portaltype-[a-z-]*');
+    var portal_type_length;
+    if (portal_type) {
+        portal_type = portal_type[0].split('-');
+        portal_type_length = portal_type.length;
+        portal_type = portal_type_length === 2 ? portal_type[1] :
+            portal_type[1] + portal_type[2];
+    }
+    var title = $('#title').val();
+    $('#similarity-dialog').remove();
+    var suggestions = $.get(
+        $('base').attr('href').split('portal_factory')[0] + 'get_suggestions',
+        {'portal_type': portal_type, 'title': title},
+        function(data){
+            $.suggestionsDialog({
+                'suggestions': data
+            });
+        },
+        'json');
+}
+
 $(function() {
     $.suggestionsDialog = function(options) {
       var dialog_title = 'Please check these possible duplicates:';
@@ -128,7 +150,7 @@ $(function() {
             $('<a/>')
               .attr('id', 'get-suggestions')
               .attr('title', 'Get suggestions for similar items')
-              .attr('href', 'javascript:void(0)')
+              .attr('href', '#')
               .text('\u2248')
               .css({
                 'font-size': '26px',
@@ -205,7 +227,7 @@ $(function() {
         $('<a/>')
             .attr('id', 'get-suggestions')
             .attr('title', 'Get suggestions for similar items')
-            .attr('href', 'javascript:void(0)')
+            .attr('href', '#')
             .text('\u2248')
             .css({
               'font-size': '26px',
@@ -279,7 +301,8 @@ $(function() {
         );
     }, 2000);
 
-    $('body').on('click', '#get-suggestions', function(){
+    $('body').on('click', '#get-suggestions', function(e){
+      e.preventDefault();
       title = $('#title').val();
       suggestions_dialog();
     });
@@ -289,27 +312,3 @@ $(function() {
       }
     });
 });
-
-function suggestions_dialog(){
-    var portal_type = $('body').attr('class').match('portaltype-[a-z-]*');
-    var portal_type_length;
-    if (portal_type) {
-        alert(portal_type[0]);
-        portal_type = portal_type[0].split('-');
-        alert(portal_type);
-        portal_type_length = portal_type.length;
-        portal_type = portal_type_length === 2 ? portal_type[1] :
-            portal_type[1] + portal_type[2];
-    }
-    var title = $('#title').val();
-    $('#similarity-dialog').remove();
-    var suggestions = $.get(
-        $('base').attr('href').split('portal_factory')[0] + 'get_suggestions',
-        {'portal_type': portal_type, 'title': title},
-        function(data){
-            $.suggestionsDialog({
-                'suggestions': data
-            });
-        },
-        'json');
-}
