@@ -9,8 +9,11 @@ function suggestions_dialog(){
     }
     var title = $('#title').val();
     $('#similarity-dialog').remove();
+    var base_url = $('base').attr('href').split('portal_factory')[0];
+    var get_suggestions_url = (base_url.endsWith('/') ?
+        base_url + 'get_suggestions': base_url + '/get_suggestions');
     var suggestions = $.get(
-        $('base').attr('href').split('portal_factory')[0] + 'get_suggestions',
+        get_suggestions_url,
         {'portal_type': portal_type, 'title': title},
         function(data){
             $.suggestionsDialog({
@@ -26,8 +29,11 @@ $(function() {
       var dialog_title_no_suggestions = 'Please check these possible duplicates:';
       var dialog_text = 'We have found a list of possible duplicates based on your title choice:';
       var dialog_text_no_suggestions = 'There are no suggestions for duplicate content based on the title';
+      var base_url = $('base').attr('href').split('portal_factory')[0];
+      var get_suggestions_text_url = (base_url.endsWith('/') ?
+          base_url + 'get_suggestions_text': base_url + '/get_suggestions_text');
       var text_data = $.ajax({
-          url: $('base').attr('href').split('portal_factory')[0] + 'get_suggestions_text',
+          url: get_suggestions_text_url,
           type: 'get',
           async: false,
           dataType: 'json',
