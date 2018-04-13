@@ -1,8 +1,12 @@
 ==============
 EEA Similarity
 ==============
-.. image:: http://ci.eionet.europa.eu/job/eea/job/eea.similarity/job/master/badge/icon
-  :target: http://ci.eionet.europa.eu/job/eea/job/eea.similarity/job/master/display/redirect
+.. image:: https://ci.eionet.europa.eu/buildStatus/icon?job=eea/eea.similarity/develop
+  :target: https://ci.eionet.europa.eu/job/eea/job/eea.similarity/job/develop/display/redirect
+  :alt: develop
+.. image:: https://ci.eionet.europa.eu/buildStatus/icon?job=eea/eea.similarity/master
+  :target: https://ci.eionet.europa.eu/job/eea/job/eea.similarity/job/master/display/redirect
+  :alt: master
 
 Introduction
 ============
