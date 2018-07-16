@@ -104,11 +104,11 @@ class Suggestions(BrowserView):
                     break
             try:
                 brain = catalog({'UID': [uid, uid.upper()]})[0]
-            except NameError:
-                logger.error('Catalog UID not found')
-            except IndexError:
-                logger.error('Object with UID %s not found in catalog',
-                             uid)
+            except NameError as err:
+                logger.warn('Catalog UID not found: %s', err)
+            except IndexError as err:
+                logger.warn('Object with UID %s not found in catalog: %s',
+                             uid, err)
             else:
                 if all_content_types or brain.portal_type.lower() in equivs:
                     try:
