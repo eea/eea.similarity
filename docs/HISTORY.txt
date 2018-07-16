@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0.dev0 - (unreleased)
+2.0 - (2018-07-16)
 -----------------------
 * Change: Use logger.warn for expected exceptions
   [avoinea refs #96835]
