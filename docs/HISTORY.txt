@@ -1,8 +1,15 @@
 Changelog
 =========
 
-1.9.dev0 - (unreleased)
+2.0 - (2018-07-16)
 -----------------------
+* Change: Use logger.warn for expected exceptions
+  [avoinea refs #96835]
+* Change: updated URLs pointing to eea.europa.eu with https://
+  [alecghica refs #95849]
+
+1.9 - (2017-12-12)
+------------------
 * Change: Replace eeacms/zptlint with eeacms/plone-test:4 zptlint
   [avoinea refs #90415]
 
