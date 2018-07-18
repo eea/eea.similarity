@@ -1,6 +1,9 @@
 Changelog
 =========
 
+2.1-dev0 - (unreleased)
+---------------------
+
 2.0 - (2018-07-16)
 -----------------------
 * Change: Use logger.warn for expected exceptions
@@ -104,4 +107,3 @@ Changelog
   [alecghica refs #82296]
 * Feature: Initial release
   [valipod refs #82296]
-
