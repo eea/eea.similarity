@@ -1,6 +1,11 @@
 Changelog
 =========
 
+2.1 - (2018-08-27)
+---------------------
+* Change: Get base-url from body data `base-url`
+  [avoinea refs #97843]
+
 2.0 - (2018-07-16)
 -----------------------
 * Change: Use logger.warn for expected exceptions
@@ -104,4 +109,3 @@ Changelog
   [alecghica refs #82296]
 * Feature: Initial release
   [valipod refs #82296]
-
